@@ -40,6 +40,13 @@
             </div>
           <?php endif; ?>
 
+          <!--MENSAJE DE ÉXITO -->
+          <?php if (!empty($success)): ?>
+            <div class="alert alert-success py-2 mb-3">
+              <?= htmlspecialchars($success, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+          <?php endif; ?>
+
           <!--FORMULARIO DE LOGIN-->
           <form method="post" action="login.php" class="vstack gap-3">
 
@@ -60,9 +67,22 @@
 
            
             <div class="text-center small text-muted">
-              © <?= date('Y') ?> Consultoría Igualdad
+              Consultoría Igualdad
             </div>
           </form>
+
+          <!-- SEPARADOR -->
+          <hr class="my-4">
+
+          <!-- BOTONES DE AYUDA -->
+          <div class="vstack gap-2">
+            <a href="forgot_password.php" class="btn btn-outline-secondary btn-sm w-100">
+              ¿Olvidaste tu contraseña?
+            </a>
+            <a href="register.php" class="btn btn-outline-primary btn-sm w-100">
+              Crear una nueva cuenta
+            </a>
+          </div>
         </div>
       </div>
 

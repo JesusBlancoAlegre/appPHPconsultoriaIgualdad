@@ -1,0 +1,74 @@
+CREATE DATABASE IF NOT EXISTS consultoriaIgualdad;
+USE consultoriaIgualdad;
+
+-- Tabla de roles
+CREATE TABLE rol (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Tabla de usuarios
+CREATE TABLE usuario (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol_id INT,
+    CONSTRAINT fk_usuario_rol FOREIGN KEY (rol_id) REFERENCES rol(id)
+);
+
+-- Insertar roles
+INSERT INTO rol (nombre) VALUES
+('ADMINISTRADOR'),
+('TECNICO'),
+('CLIENTE');
+
+-- Insertar usuarios
+INSERT INTO usuario (username, password, rol_id) VALUES
+('admin', 'admin123', 1),
+('tecnico', 'tec123', 2),
+('cliente', 'cli123', 3);
+
+select * from usuario;
+
+
+UPDATE usuario SET password = '$2y$10$Eh5qPCYyxVoLzuWQK9RQh.uy0Q/SPcki94SGko7DV9Ephp0jL4BAu' WHERE username = 'admin';
+UPDATE usuario SET password = '$2y$10$VLXfptHN9s8O/HewHX9Oj.0BVP02y80Qtu/SOwBPzgt.g3qElCHm.'   WHERE username = 'tecnico';
+UPDATE usuario SET password = '$2y$10$5Xf3bUDpX..efGXRnVryn.wRMt1bGpc1ZxXTJonYjH8Q3Y7In1EJe'   WHERE username = 'cliente';
+
+
+-- Tabla de avisos 
+CREATE TABLE IF NOT EXISTS aviso (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  tipo ENUM('login','logout','error','info','upload') NOT NULL DEFAULT 'info',
+  mensaje VARCHAR(255) NOT NULL,
+  detalle TEXT NULL,
+  ip VARCHAR(45) NULL,
+  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_aviso_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+CREATE INDEX idx_aviso_usuario_fecha ON aviso(usuario_id, creado_en);
+CREATE INDEX idx_aviso_tipo_fecha ON aviso(tipo, creado_en);
+
+-- Tabla de archivos subidos por cliente
+CREATE TABLE IF NOT EXISTS archivo (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  nombre_original VARCHAR(255) NOT NULL,
+  nombre_guardado VARCHAR(255) NOT NULL,
+  ruta_relativa VARCHAR(255) NOT NULL,
+  tamano_bytes BIGINT NOT NULL DEFAULT 0,
+  mime VARCHAR(120) NULL,
+  sha256 CHAR(64) NULL,
+  subido_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_archivo_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+CREATE INDEX idx_archivo_usuario_fecha ON archivo(usuario_id, subido_en);
+select * from archivo;
+select * from aviso;
+select * from usuario;
+
+
+DELETE FROM aviso   WHERE usuario_id = 7;

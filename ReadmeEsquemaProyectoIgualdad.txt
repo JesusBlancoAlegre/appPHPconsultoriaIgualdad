@@ -1,0 +1,26 @@
+Consultoría igualdad
+Aplicación web de 3 usuarios
+Users
+Cliente ??
+Técnico empleado 
+Admin total 
+Técnico de igualdad
+
+Funcionalidades
+Implementación de registro retributivo/exel
+Notificaciones al cargar
+A partir del excel crear gráficos
+
+Cliente
+Puede solicitar para contratar puede ver el gráfico etc…
+
+Tecnico
+Puede Igual Cliente igual admin sin gestionar usuario admin
+Actua como soporte “temporal”
+
+Admin agregar quitar users 
+Cargar excels
+
+
+Mantenimiento
+Form para contratar/promoción que notifica al empleado/uno de los técnicos
